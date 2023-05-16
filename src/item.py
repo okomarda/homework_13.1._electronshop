@@ -1,6 +1,6 @@
 import csv
 
-file = 'items.csv'
+file = '../items.csv'
 
 class Item:
     """
@@ -9,15 +9,21 @@ class Item:
     pay_rate = 1.0
     all = []
 
-    def __init__(self, name: str, price: float, quantity: int):
+    def __init__(self, name: str, price:float, quantity: int):
         self.__name = name
         self.price = price
         self.quantity = quantity
 
+    def __repr__(self):
+        return f"Item('{self.__name}', {self.price}, {self.quantity})"
 
+    def __str__(self):
+        return f'{self.__name}'
+
+    file = "../items.csv"
     @classmethod
-    def instantiate_from_csv(cls):
-        with open ("C:\lessons\homework_13.1._electronshop\src\items.csv", newline='') as csvfile :
+    def instantiate_from_csv(cls, file):
+        with open (file, newline='') as csvfile :
             reader = csv.DictReader (csvfile)
             for row in reader:
                 row_list = list(row.values())
@@ -42,7 +48,7 @@ class Item:
         elif len(name) > 10:
             print("Количество символов в наименовании товаров превышает 10")
 
-    def calculate_total_price(self) -> float:
+    def calculate_total_price(self):
         return self.price*self.quantity
 
     def apply_discount(self):
@@ -52,7 +58,7 @@ class Item:
 
 all = Item.all
 
-#item = Item("Помидоры", 50.5, 100)
+item = Item("Помидоры", 50.5, 100)
 #print(item.name)
 #item.name = "телефон"
 #print(item.name)
@@ -60,10 +66,12 @@ all = Item.all
 #print(item.name)
 
 
-#print(Item.instantiate_from_csv())
+#print(Item.instantiate_from_csv(file))
 #print(Item.all)
 #print(Item.all[0])
 #item1 = Item.all[0]
 #print(item1.name)
+#print(item.__repr__())
+#print(item)
 
 
