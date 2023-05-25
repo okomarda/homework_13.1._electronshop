@@ -15,7 +15,7 @@ class Item:
         self.quantity = quantity
 
     def __repr__(self):
-        return f"Item('{self.__name}', {self.price}, {self.quantity})"
+        return f"{self.__class__.__name__}('{self.__name}', {self.price}, {self.quantity})"
 
     def __str__(self):
         return f'{self.__name}'
@@ -48,12 +48,24 @@ class Item:
         elif len(name) > 10:
             print("Количество символов в наименовании товаров превышает 10")
 
+
     def calculate_total_price(self):
         return self.price*self.quantity
 
     def apply_discount(self):
         self.price = self.price*self.pay_rate
         return self.price
+
+    @classmethod
+    def __compare_quant(cls, other) :
+        if issubclass (Item, (int, Item)) :
+            return other if isinstance (other, int) else int (other.quantity)
+
+        raise TypeError ("Операнд справа должен быть числом или объектом класса")
+
+    def __add__(self, other) :
+        quan = self.__compare_quant (other)
+        return int (self.quantity) + int (quan)
 
 
 all = Item.all
