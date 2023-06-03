@@ -13,6 +13,7 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
+        super().__init__()
 
     def __repr__(self):
         return f"{self.__class__.__name__}('{self.__name}', {self.price}, {self.quantity})"
@@ -23,13 +24,23 @@ class Item:
     file = "../items.csv"
     @classmethod
     def instantiate_from_csv(cls, file):
-        with open (file, newline='') as csvfile :
-            reader = csv.DictReader (csvfile)
-            for row in reader:
-                row_list = list(row.values())
-                item = Item(row_list[0], row_list[1], row_list[2])
-                all.append(item)
-            return all
+        try:
+            with open (file, newline='') as csvfile :
+                reader = csv.DictReader (csvfile)
+                for row in reader:
+                    row_list = list(row.values())
+                    item = Item(row_list[0], row_list[1], row_list[2])
+                    all.append(item)
+                return all
+        except FileNotFoundError:
+            print("FileNotFoundError: Отсутствует файл item.csv")
+
+        except:
+            if len(row.keys()) < 3:
+                raise InstantiateCSVError
+            elif row.keys() is None:
+                raise InstantiateCSVError
+
 
     @staticmethod
     def string_to_number(number):
@@ -67,6 +78,15 @@ class Item:
         quan = self.__compare_quant (other)
         return int (self.quantity) + int (quan)
 
+class InstantiateCSVError(Exception):
+    """Класс исключения при повреждении файла"""
+
+    def __init__(self, *args, **kwargs) :
+        self.message = args[0] if args else 'InstantiateCSVError: Файл item.csv поврежден'
+
+    def __str__(self):
+        return self.message
+
 
 all = Item.all
 
@@ -78,12 +98,12 @@ item = Item("Помидоры", 50.5, 100)
 #print(item.name)
 
 
-#print(Item.instantiate_from_csv(file))
+print(Item.instantiate_from_csv(file))
 #print(Item.all)
 #print(Item.all[0])
 #item1 = Item.all[0]
 #print(item1.name)
 #print(item.__repr__())
-#print(item)
+print(item.quantity)
 
 
