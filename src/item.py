@@ -90,7 +90,7 @@ class InstantiateCSVError(Exception):
 
 all = Item.all
 
-item = Item("Помидоры", 50.5, 100)
+#item = Item("Помидоры", 50.5, 100)
 #print(item.name)
 #item.name = "телефон"
 #print(item.name)
@@ -98,12 +98,12 @@ item = Item("Помидоры", 50.5, 100)
 #print(item.name)
 
 
-print(Item.instantiate_from_csv(file))
-#print(Item.all)
+#print(Item.instantiate_from_csv(file))
+#print(len(Item.all))
 #print(Item.all[0])
 #item1 = Item.all[0]
 #print(item1.name)
 #print(item.__repr__())
-print(item.quantity)
+#print(item.quantity)
 
 

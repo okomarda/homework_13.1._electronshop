@@ -1,6 +1,7 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 
 from src.item import Item
+import csv
 
 file = "../items.csv"
 
@@ -42,5 +43,17 @@ def test_string_to_number() :
     assert Item.string_to_number ('5.45') == 5
     assert Item.string_to_number ('5.0') == 5
     assert Item.string_to_number ('77') == 77
+
+def test_filenotfound():
+    if file is None:
+        assert Item.instantiate_from_csv(file) == "FileNotFoundError: Отсутствует файл item."
+
+def test_file_bad():
+    with open (file, newline='') as csvfile :
+        reader = csv.DictReader (csvfile)
+        for row in reader:
+            row_list = list (row.values ( ))
+            if len(row_list) < 3:
+                assert Item.instantiate_from_csv(file) == "src.item.InstantiateCSVError: InstantiateCSVError: Файл item.csv поврежден"
 
 
